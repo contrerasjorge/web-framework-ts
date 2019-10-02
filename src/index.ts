@@ -1,9 +1,8 @@
+import { UserForm } from './views/UserForm';
 import { User } from './models/User';
 
-const user = new User({ id: 1, name: 'newer name', age: 0 });
+const user = User.buildUser({ name: 'NAME', age: 20 });
 
-user.on('change', () => {
-  console.log(user);
-});
+const userForm = new UserForm(document.getElementById('root'), user);
 
-user.fetch();
+userForm.render();
