@@ -1,14 +1,20 @@
-import { UserForm } from './views/UserForm';
-import { User } from './models/User';
+import { UserList } from './views/UserList';
+import { Collection } from './models/Collection';
+import { UserProps } from './models/User';
 
-const user = User.buildUser({ name: 'NAME', age: 20 });
+const user = new Collection(
+  'http://localhost:3000/users',
+  (json: userProps) => {
+    return User.buildUser(json);
+  }
+);
 
-const root = document.getElementById('root');
+user.on('change', () => {
+  const root = document.getElementById('root');
 
-if (root) {
-  const userForm = new UserForm(root, user);
+  if (root) {
+    new UserList(root, users).render();
+  }
+});
 
-  userForm.render();
-} else {
-  throw new Error('Root element not found');
-}
+users.fetch();
